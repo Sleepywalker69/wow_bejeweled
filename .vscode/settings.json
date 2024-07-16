@@ -1,0 +1,29 @@
+{
+    "Lua.diagnostics.globals": [
+        "CHAT_MSG_GUILD",
+        "CHAT_MSG_PARTY",
+        "CHAT_MSG_RAID",
+        "SlashCmdList",
+        "STANDARD_TEXT_FONT",
+        "OKAY",
+        "DEFAULT_CHAT_FRAME",
+        "NORMAL_FONT_COLOR",
+        "HIGHLIGHT_FONT_COLOR",
+        "UIDropDownMenu_SetText",
+        "UIDropDownMenu_SetSelectedValue",
+        "GameTooltip_SetDefaultAnchor",
+        "TaxiRouteMap",
+        "LOOT_ITEM_SELF",
+        "FACTION_STANDING_CHANGED",
+        "ReloadUI",
+        "UIDropDownMenu_SetAnchor",
+        "UIDropDownMenu_Initialize",
+        "UIDropDownMenu_SetWidth",
+        "MouseIsOver",
+        "UIDROPDOWNMENU_MENU_LEVEL",
+        "NONE",
+        "UIDropDownMenu_AddButton",
+        "GetBindingFromClick",
+        "ChatTypeInfo"
+    ]
+}
