@@ -2507,8 +2507,6 @@ local function lt(a, r, o, i, n, d)
     t:SetVertexColor(unpack(he[d]))
     t.fxType = We
     t.fxFrame = 1
-	-- FixMe:  DrawRouteLine no longer exists.  This is what generates the 'Lightning' effect when you use an 'Ultra' gem.  The gem still works, but the effect is now missing.
-    -- DrawRouteLine(t, Bejeweled.gameBoard, r, -o, i, -n, 128, "TOPLEFT") DrawRouteLine(t.highlight, Bejeweled.gameBoard, r, -o, i, -n, 128, "TOPLEFT") t:Show()
     t.highlight:Show()
     return t;
 end
@@ -4857,10 +4855,10 @@ local function V()
                 while (t.throttleCount < 20) do
                     o, e, n = strsplit("~", B(t.queue, 1))
                     if ((e == "GUILD") and IsInGuild()) then
-                        C_ChatInfo.SendAddonMessage(xe, o, e, n)
+                        C_ChatInfo.SendAddonMessage(xe, o, e)
                         t.throttleCount = t.throttleCount + 1
                     elseif (e == "WHISPER") and (n ~= "") then
-                        C_ChatInfo.SendAddonMessage(xe, o, e, n)
+                        C_ChatInfo.SendAddonMessage(xe, o, e)
                         t.throttleCount = t.throttleCount + 1;
                     end
                     if (#t.queue == 0) then
@@ -4878,9 +4876,10 @@ local function V()
                 if (t == "WHISPER") then
                     local i, o
                     for i = 1, C_FriendList.GetNumFriends() do
-                        o = C_FriendList.GetFriendInfoByIndex(i) if (o == e) then
-                            Ee(e, n, t)
-                            break;
+                        local friendInfo = C_FriendList.GetFriendInfo(i)
+                        if friendInfo.connected then
+                            Bejeweled.network:Send("LogSync", "", "WHISPER", friendInfo.name)
+                            Bejeweled.network:Send("HSPub", n, "WHISPER", friendInfo.name)
                         end
                     end
                 else
@@ -7528,13 +7527,7 @@ local function k()
     N()
     E()
     r:SetClampedToScreen(true)
-    r:SetScript("OnEvent", function(self, event, ...)
-        if event == "VARIABLES_LOADED" then
-            -- Handle VARIABLES_LOADED
-        elseif event == "PLAYER_ENTERING_WORLD" then
-            -- Handle PLAYER_ENTERING_WORLD
-        end
-    end)
+    r:SetScript("OnEvent", S)
     r:RegisterEvent("VARIABLES_LOADED")
     r:RegisterEvent("PLAYER_ENTERING_WORLD")
     r:RegisterEvent("PLAYER_DEAD")
@@ -7575,9 +7568,6 @@ local function k()
     x:CreateHint()
 
     -- Clean up functions that are no longer needed
-    tt = nil
-    A = nil
-    g = nil
     P = nil
     B = nil
     u = nil
