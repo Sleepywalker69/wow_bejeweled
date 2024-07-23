@@ -257,8 +257,8 @@ local n = {
     moveAllowed = nil,
     activeTime = 0
 }
-BejeweledData = {}
-BejeweledProfile = {
+BejeweledData = BejeweledData or {}
+BejeweledProfile = BejeweledProfile or {
     ["stats"] = {
         ["classic"] = {
             ["score"] = 0,
@@ -842,7 +842,7 @@ local function _t(t)
         Bejeweled.network:Send("HSPub", o, "GUILD", "")
         local i, n
         for i = 1,  C_FriendList.GetNumFriends() do
-            n, _, _, _, online =  C_FriendList.GetFriendInfo(i) if (online) then
+            local friendInfo = C_FriendList.GetFriendInfoByIndex(i) if (online) then
                 Bejeweled.network:Send("HSPub", o, "WHISPER", n);
             end
         end
@@ -1760,7 +1760,7 @@ function Bejeweled:ScrubLists()
                     a = nil
                     if (d == 1) then
                         for e = 1, C_FriendList.GetNumFriends() do
-                            r = C_FriendList.GetFriendInfo(e)
+                            r = C_FriendList.GetFriendInfoByIndex(e)
                             if (i == r) then
                                 a = true
                                 break;
@@ -3206,7 +3206,7 @@ local function nt(o, r)
                 o["classicName" .. t]:SetText(a .. n)
             else
                 for e = 1, C_FriendList.GetNumFriends() do
-                    if (n == C_FriendList.GetFriendInfo(e)) then
+                    if (n == C_FriendList.GetFriendInfoByIndex(e)) then
                         o["classicName" .. t]:SetText(a .. n)
                         break;
                     end
@@ -3239,7 +3239,7 @@ local function nt(o, r)
                 o["timedName" .. t]:SetText(a .. n)
             else
                 for e = 1, C_FriendList.GetNumFriends() do
-                    if (n == C_FriendList.GetFriendInfo(e)) then
+                    if (n == C_FriendList.GetFriendInfoByIndex(e)) then
                         o["timedName" .. t]:SetText(a .. n)
                         break;
                     end
@@ -3380,7 +3380,7 @@ function Bejeweled:UpdateSavedVariablesDatabase()
         t.insets.right = 3
         n:SetBackdrop(t)
         n:SetBackdropColor(.7, .7, .7, 1)
-        local t = CreateFrame("Button", "", n, "UIPanelCloseButton", BackdropTemplateMixin and "BackdropTemplate") t:SetToplevel(true)
+        local t = CreateFrame("Button", "", n, "UIPanelCloseButton" and "BackdropTemplate") t:SetToplevel(true)
         t:SetPoint("Topright", n, "Topright", 2, 2) t:SetWidth(32)
         t:SetHeight(32)
         t:SetScript("OnClick", function(e)
@@ -3395,7 +3395,7 @@ function Bejeweled:UpdateSavedVariablesDatabase()
         t:SetText("The score storage system has been changed in this version. In order to continue to send high scores to other players you must upgrade to the new system, which will wipe your existing scores. If you do not upgrade, you will not broadcast or receive scores. Would you like to upgrade now?")
         t:SetWidth(290)
         t:Show()
-        local t = CreateFrame("Button", "BejeweledUpdateYes", n, "OptionsButtonTemplate") t:SetPoint("Bottomleft", 40, 20)
+        local t = CreateFrame("Button", "BejeweledUpdateYes", n, "OptionsButtonTemplate" and "BackdropTemplate") t:SetPoint("Bottomleft", 40, 20)
         t:SetText("Yes")
         t:SetWidth(100)
         t:SetHeight(28)
@@ -3626,7 +3626,7 @@ function Bejeweled.CreateSlider_OnValueChanged(e)
 end
 
 function Bejeweled:CreateSlider(a, l, s, h, n, t, o, d, r, i, S)
-    local t = CreateFrame("Slider", "BejeweledSlider" .. n, t, "OptionsSliderTemplate")
+    local t = CreateFrame("Slider", "BejeweledSlider" .. n, t, "OptionsSliderTemplate" and "BackdropTemplate")
     t:SetWidth(s)
     getglobal(t:GetName() .. "Thumb"):Show()
     getglobal(t:GetName() .. "Text"):SetFont(STANDARD_TEXT_FONT, 14)
@@ -3666,7 +3666,7 @@ function Bejeweled:CreateSlider(a, l, s, h, n, t, o, d, r, i, S)
 end
 
 function Bejeweled:CreateCheckbox(d, r, a, o, l, t, n, i)
-    local t = CreateFrame("CheckButton", "BejeweledCheckBox" .. o, t, "OptionsCheckButtonTemplate")
+    local t = CreateFrame("CheckButton", "BejeweledCheckBox" .. o, t, "OptionsCheckButtonTemplate" and "BackdropTemplate")
     t:SetWidth(21)
     t:SetHeight(21)
     getglobal(t:GetName() .. "Text"):SetFont(STANDARD_TEXT_FONT, 13)
@@ -4878,7 +4878,7 @@ local function V()
                 if (t == "WHISPER") then
                     local i, o
                     for i = 1, C_FriendList.GetNumFriends() do
-                        o = C_FriendList.GetFriendInfo(i) if (o == e) then
+                        o = C_FriendList.GetFriendInfoByIndex(i) if (o == e) then
                             Ee(e, n, t)
                             break;
                         end
@@ -4965,68 +4965,68 @@ local function O()
             end
             if (t.Invalid) then
                 t.Invalid = nil
-                PlaySoundFile(e .. "bad2.mp3");
+                PlaySoundFile(e .. "bad2.mp3", "Master");
             end
             if (t.Explosion) then
                 t.Explosion = nil
-                PlaySoundFile(e .. "bombexplode.mp3");
+                PlaySoundFile(e .. "bombexplode.mp3", "Master");
             end
             if (t.GetReady) then
                 t.GetReady = nil
-                PlaySoundFile(e .. "Get_ready.mp3");
+                PlaySoundFile(e .. "Get_ready.mp3", "Master");
             end
             if (t.NoMoreMoves) then
                 t.NoMoreMoves = nil
-                PlaySoundFile(e .. "No_More_Moves.mp3");
+                PlaySoundFile(e .. "No_More_Moves.mp3", "Master");
             end
             if (t.TimesUp) then
                 t.TimesUp = nil
-                PlaySoundFile(e .. "Time_Up.mp3");
+                PlaySoundFile(e .. "Time_Up.mp3", "Master");
             end
             if (t.Go) then
                 t.Go = nil
-                PlaySoundFile(e .. "Go.mp3");
+                PlaySoundFile(e .. "Go.mp3", "Master");
             end
             if (t.Select) then
                 t.Select = nil
-                PlaySoundFile(e .. "select.mp3");
+                PlaySoundFile(e .. "select.mp3", "Master");
             end
             if (t.PowerCreate) then
                 t.PowerCreate = nil
-                PlaySoundFile(e .. "multishot.mp3");
+                PlaySoundFile(e .. "multishot.mp3", "Master");
             end
             if (t.HyperCreate) then
                 t.HyperCreate = nil
-                PlaySoundFile(e .. "hypergem_creation.mp3");
+                PlaySoundFile(e .. "hypergem_creation.mp3", "Master");
             end
             if (t.HyperDestroy) then
                 t.HyperDestroy = nil
-                PlaySoundFile(e .. "hypergem_destroyed.mp3");
+                PlaySoundFile(e .. "hypergem_destroyed.mp3", "Master");
             end
             if (t.GemClick) then
                 t.GemClick = nil
-                PlaySoundFile(e .. "gemongem2.mp3");
+                PlaySoundFile(e .. "gemongem2.mp3", "Master");
             end
             if (t.WipeBoard) then
                 t.WipeBoard = nil
-                PlaySoundFile(e .. "explode2.mp3");
+                PlaySoundFile(e .. "explode2.mp3", "Master");
             end
             if (t.ElectroExplode) then
                 t.ElectroExplode = nil
-                PlaySoundFile(e .. "electro_explode.mp3");
+                PlaySoundFile(e .. "electro_explode.mp3", "Master");
             end
             if (t.LevelUp) then
                 t.LevelUp = nil
-                PlaySoundFile("Sound\\Spells\\LevelUp.wav");
+                PlaySoundFile("Sound\\Spells\\LevelUp.wav", "Master");
             end
             if (t.Combo) then
                 local n
                 for n = 1, 6 do
                     if (t["Combo" .. n]) then
                         if (n == 1) then
-                            PlaySoundFile(e .. "gotset2.mp3")
+                            PlaySoundFile(e .. "gotset2.mp3", "Master")
                         else
-                            PlaySoundFile(e .. "combo" .. (n + 1) .. "2.mp3");
+                            PlaySoundFile(e .. "combo" .. (n + 1) .. "2.mp3", "Master");
                         end
                         t["Combo" .. n] = nil
                         break;
@@ -5761,7 +5761,7 @@ local function R()
     o:SetBackdropColor(.6, .6, .6, 1)
     o:SetBackdropBorderColor(1, .8, .45)
     o:SetMovable(true)
-    local t = CreateFrame("Button", "", o, "UIPanelCloseButton")
+    local t = CreateFrame("Button", "", o, "UIPanelCloseButton" and "BackdropTemplate")
     t:SetToplevel(true)
     t:SetPoint("Topright", o, "Topright", 0, 2)
     t:SetWidth(38)
@@ -5816,7 +5816,7 @@ local function R()
         getglobal(e:GetName() .. "Value"):SetText(e:GetValue() .. " Minute(s)")
     end)
     n:SetValue(5)
-    local t = CreateFrame("Button", "BejeweledTimedButtonGo", o, "OptionsButtonTemplate")
+    local t = CreateFrame("Button", "BejeweledTimedButtonGo", o, "OptionsButtonTemplate" and "BackdropTemplate")
     t:SetPoint("Bottom", 1, 10)
     t:SetText("Go!")
     t:SetWidth(f - 20)
@@ -5920,7 +5920,7 @@ local function B()
             Bejeweled.network:Send("HSPub", t.dataDump, "GUILD", "")
             local o, n
             for o = 1, C_FriendList.GetNumFriends() do
-                n, _, _, _, online = C_FriendList.GetFriendInfo(o) if (online) then
+                local friendInfo = C_FriendList.GetFriendInfoByIndex(o) if (o >= 1) then
                     Bejeweled.network:Send("HSPub", t.dataDump, "WHISPER", n);
                 end
             end
@@ -7528,6 +7528,13 @@ local function k()
     N()
     E()
     r:SetClampedToScreen(true)
+    r:SetScript("OnEvent", function(self, event, ...)
+        if event == "VARIABLES_LOADED" then
+            -- Handle VARIABLES_LOADED
+        elseif event == "PLAYER_ENTERING_WORLD" then
+            -- Handle PLAYER_ENTERING_WORLD
+        end
+    end)
     r:RegisterEvent("VARIABLES_LOADED")
     r:RegisterEvent("PLAYER_ENTERING_WORLD")
     r:RegisterEvent("PLAYER_DEAD")
@@ -7535,7 +7542,6 @@ local function k()
     r:RegisterEvent("PLAYER_REGEN_DISABLED")
     r:RegisterEvent("FRIENDLIST_UPDATE")
     r:RegisterEvent("GUILD_ROSTER_UPDATE")
-    r:SetScript("OnEvent", S)
     SLASH_BEJEWELED1 = "/bejeweled"
     SLASH_BEJEWELED2 = "/bej"
     SlashCmdList["BEJEWELED"] = Ze
