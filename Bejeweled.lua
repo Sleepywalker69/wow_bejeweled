@@ -5213,9 +5213,14 @@ local function g()
         Bejeweled.window.resizing = nil
     end)
     if t then
-        t:SetMaxResize(q * 1.5, me * 1.5)
-        t:SetMinResize(q / 2, me / 2)
-        t:SetResizable(true)
+        -- Ensure SetMaxResize method is available before calling
+        if t.SetMaxResize then
+            t:SetMaxResize(q * 1.5, me * 1.5)
+            t:SetMinResize(q / 2, me / 2)
+            t:SetResizable(true)
+        else
+            print("Error: SetMaxResize method is not available for this frame")
+        end
     else
         print("Error: BejeweledWindow frame is nil")
     end
@@ -5292,7 +5297,8 @@ local function g()
         end
         t:Hide()
         Bejeweled.const.windowFadeIn.fadeTimer = 0
-        UIFrameFade(Bejeweled.window, Bejeweled.const.windowFadeIn) Bejeweled.sound.mouseOver = true
+        UIFrameFade(Bejeweled.window, Bejeweled.const.windowFadeIn)
+        Bejeweled.sound.mouseOver = true
         Bejeweled.sound:Show()
         if (Bejeweled.mousePaused == true) then
             if (Bejeweled.summaryScreen:GetAlpha() == 1) then
@@ -5306,6 +5312,7 @@ local function g()
     n:Show()
     return t;
 end
+
 
 local function P()
     local t = CreateFrame("Frame", "BejeweledMenu", Bejeweled.window, BackdropTemplateMixin and "BackdropTemplate")
