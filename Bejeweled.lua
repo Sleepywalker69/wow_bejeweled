@@ -186,7 +186,7 @@ for e = 0, 4 do
     end
     for t = 0, 4 do
         F[i + t] = { t * 49 / 255, (t + 1) * 49 / 255, (e * 50) / 255, ((e + 1) * 50 - 1) / 255 }
-        J[i + t] = { unpack(F[i + t]) }
+        J[i + t] = { table.unpack(F[i + t]) }
     end
     i = i + 5
 end
@@ -5236,7 +5236,7 @@ local function g()
         end
     end)
     t.menuButton = o
-    local o = t:CreateTexture(nil, "Art")
+    local o = t:CreateTexture(nil, "ARTWORK")
     o:SetTexture(l .. "windowIcon")
     o:SetPoint("Topleft", -12, 4)
     o:SetWidth(64)
@@ -5247,7 +5247,7 @@ local function g()
     i:SetPoint("Topleft", t)
     i:SetPoint("Topright", t, -8, 0)
     i:SetHeight(o[2])
-    local i = i:CreateTexture(nil, "Art")
+    local i = i:CreateTexture(nil, "ARTWORK")
     i:SetTexture(l .. "artPieces")
     i:SetPoint("Bottom", 0, 0)
     i:SetWidth(o[1])
