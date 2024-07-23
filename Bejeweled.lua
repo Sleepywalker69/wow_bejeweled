@@ -1,4 +1,6 @@
 local Bejeweled = Bejeweled or {}
+local unpack = table.unpack or unpack
+local F, J = {}, {}
 Bejeweled.version = "Version 2.5.2-Classic"
 Bejeweled.splashDisplayTime = 3
 local t = "Interface\\AddOns\\Bejeweled"
@@ -186,7 +188,7 @@ for e = 0, 4 do
     end
     for t = 0, 4 do
         F[i + t] = { t * 49 / 255, (t + 1) * 49 / 255, (e * 50) / 255, ((e + 1) * 50 - 1) / 255 }
-        J[i + t] = { table.unpack(F[i + t]) }
+        J[i + t] = { unpack(F[i + t]) }
     end
     i = i + 5
 end
