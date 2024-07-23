@@ -1,6 +1,9 @@
 local Bejeweled = Bejeweled or {}
 local unpack = table.unpack or unpack
 local F, J = {}, {}
+local c = 1   -- Classic mode
+local ae = 2  -- Timed mode
+local k = 3   -- Another game mode (possibly endless mode?)
 Bejeweled.version = "Version 2.5.2-Classic"
 Bejeweled.splashDisplayTime = 3
 local t = "Interface\\AddOns\\Bejeweled"
