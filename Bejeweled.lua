@@ -361,6 +361,71 @@ BejeweledProfile = BejeweledProfile or {
 }
 Bejeweled.debugArray = o
 Bejeweled.debugCurrentGameData = n
+Bejeweled.env = {
+    Bejeweled = Bejeweled,
+    o = o,
+    n = n,
+    B = B,
+    u = u,
+    R = R,
+    M = M,
+    Ce = Ce,
+    d = d,
+    -- Constants
+    V = V,
+    Pe = Pe,
+    Ct = Ct,
+    pe = pe,
+    ot = ot,
+    Fe = Fe,
+    y = y,
+    je = je,
+    ke = ke,
+    g = g,
+    W = W,
+    S = S,
+    A = A,
+    E = E,
+    De = De,
+    Oe = Oe,
+    We = We,
+    te = te,
+    Ve = Ve,
+    He = He,
+    ye = ye,
+    -- Additional variables
+    Te = Te,
+    et = et,
+    wt = wt,
+    Gt = Gt,
+    re = re,
+    z = z,
+    c = c,
+    a = a,
+    h = h,
+    b = b,
+    p = p,
+    le = le,
+    se = se,
+    Lt = Lt,
+    it = it,
+    Re = Re,
+    mt = mt,
+    ve = ve,
+    -- Tables
+    F = F,
+    N = N,
+    O = O,
+    J = J,
+    ie = ie,
+    FX_SHINE_ALPHA = FX_SHINE_ALPHA,
+    FX_SHINE_GRIDX = FX_SHINE_GRIDX,
+    FX_SHINE_GRIDY = FX_SHINE_GRIDY,
+    FX_SHINE_KEYFRAME = FX_SHINE_KEYFRAME,
+    -- Functions
+    unpack = unpack,
+    math = math,
+}
 local function C()
     return {
         bgFile = "Interface\\Tooltips\\UI-Tooltip-Background",
@@ -2279,6 +2344,12 @@ function Bejeweled:Print(o, n, e, t)
     DEFAULT_CHAT_FRAME:AddMessage(o, n, e, t)
 end
 
+local function UpdateEnv()
+    Bejeweled.env.o = o  -- If o has changed
+    Bejeweled.env.n = n  -- If n has changed
+    -- Update other values as necessary
+end
+
 local function Se(t)
     local e
     if (t) then
@@ -4087,359 +4158,506 @@ local function de(t, o)
     end
 end
 
-local function Se(l, w)
+local function UpdateEnv()
+    Bejeweled.env.o = o  -- If o has changed
+    Bejeweled.env.n = n  -- If n has changed
+    -- Update other values as necessary
+end
+
+local function Se(l, w, env)
+    -- env is a table containing frequently used values
+    local Bejeweled = env.Bejeweled
+    local o = env.o
+    local n = env.n
+    local B = env.B
+    local u = env.u
+    local R = env.R
+    local M = env.M
+    local Ce = env.Ce
+    local d = env.d
+
+    -- Local variables for constants
+    local V, Pe, Ct, pe, ot, Fe = env.V, env.Pe, env.Ct, env.pe, env.ot, env.Fe
+    local y, je, ke, g, W, S, A, E = env.y, env.je, env.ke, env.g, env.W, env.S, env.A, env.E
+    local De, Oe, We, te, Ve, He, ye = env.De, env.Oe, env.We, env.te, env.Ve, env.He, env.ye
+
     l.elapsed = l.elapsed + w
-    if (l.elapsed < l.delay) then
-        return;
-    end
-    if not Bejeweled.isShown then
-        l.elapsed = 0
-        return;
-    end
+    if (l.elapsed < l.delay) then return end
+    if not Bejeweled.isShown then l.elapsed = 0 return end
+
     local T = Bejeweled.animator
     local K = Bejeweled.gameBoard
-    local k = Te * l.elapsed
-    local _ = et * l.elapsed
-    local P = wt * l.elapsed
-    local I = Gt * l.elapsed
-    local t = et * .025
-    local t = 20
+    local k = env.Te * l.elapsed
+    local _ = env.et * l.elapsed
+    local P = env.wt * l.elapsed
+    local I = env.Gt * l.elapsed
+
     if (n.levelingUp) then
-        if (n.mode ~= c) then
+        if (n.mode ~= env.c) then
             k = k * 2.5
-            P = P * 2;
+            P = P * 2
         end
     end
+
     local x = l.animationStack
-    local r, f, i, C, t, s, j, D, L, U, r
-    local c, r
+    local f = 1
     local m = l.animationStatus
-    local G, v
-    l.glowFrame = l.glowFrame + (w * re * l.glowFrameDir)
-    if (l.glowFrame >= re) then
+    local w = (m ~= V)
+
+    l.glowFrame = l.glowFrame + (w * env.re * l.glowFrameDir)
+    if (l.glowFrame >= env.re) then
         l.glowFrameDir = -1
-        l.glowFrame = re;
+        l.glowFrame = env.re
     end
     if (l.glowFrame <= 1) then
         l.glowFrameDir = 1
-        l.glowFrame = 1;
+        l.glowFrame = 1
     end
-    local H = (l.glowFrame / re) * (1 / (z + 4))
+    local H = (l.glowFrame / env.re) * (1 / (env.z + 4))
+
+    -- Continue with the rest of the function...
     if (n.gameMode) then
         l.lightwaveElapsed = (l.lightwaveElapsed or (0)) + l.elapsed
         if (l.lightwaveElapsed > 25) then
             l.lightwaveElapsed = 0
-            for e = 1, a do
-                l:Add(l:CreateLightwave(o[e][1], e));
+            for e = 1, env.a do
+                l:Add(l:CreateLightwave(o[e][1], e))
             end
         end
     end
-    for e = 1, a do
-        for n = 1, h do
-            t = o[e][n]
+ 
+    for e = 1, env.a do
+        for n = 1, env.h do
+            local t = o[e][n]
             t.glowLevel = 0
-            t.glow:SetAlpha(0);
+            t.glow:SetAlpha(0)
         end
     end
-    f = 1
+ 
     if (#l.newJewel > 0) then
         for e = 1, #l.newJewel do
-            B(l.newJewel, 1);
+            B(l.newJewel, 1)
         end
     end
-    local w = (m ~= V) if (m == pe) then
+ 
+    if (m == pe) then
         l:HandleJewelDropping(l)
     end
     if (m == Ct) then
         m = m + 1
-        l:HandleJewelFalling(l);
+        l:HandleJewelFalling(l)
     end
-    for Y = 1, #x do
-        t = x[f]
-        t.movedOnce = nil
-        if (t.fxType == De) then
-            i = t.fxFrame + 1
-            t.fxFrame = i
-            local e = t:GetParent()
-            if (i == 1) then
-                if (e.gridX < 8) then
-                    l:Add(l:CreateLightwave(o[e.gridY][e.gridX + 1], 0));
-                end
-                t.texture:SetTexCoord(unpack(N[2]))
-            elseif (i == 10) then
-                t.fxType = S
-                u(l.lightwaveQueue, t)
-                t:Hide()
-                t:GetParent().lightWaveObj = nil;
+ 
+    local function handleDeType(t, l)
+        local i = t.fxFrame + 1
+        t.fxFrame = i
+        local e = t:GetParent()
+        if (i == 1) then
+            if (e.gridX < 8) then
+                l:Add(l:CreateLightwave(o[e.gridY][e.gridX + 1], 0))
             end
-            if (i > 0) and (e.y >= 0) then
-                t:SetAlpha((10 - i) / 10)
-            else
-                t:SetAlpha(0);
+            t.texture:SetTexCoord(unpack(env.N[2]))
+        elseif (i == 10) then
+            t.fxType = S
+            u(l.lightwaveQueue, t)
+            t:Hide()
+            t:GetParent().lightWaveObj = nil
+        end
+        if (i > 0) and (e.y >= 0) then
+            t:SetAlpha((10 - i) / 10)
+        else
+            t:SetAlpha(0)
+        end
+    end
+ 
+    local function handleVType(t, m, T, f, x)
+        local i = t.fxFrame + 1
+        if (i > env.Lt) then
+            i = 1
+            if (t.fxEnd) then
+                t.fxEnd = nil
+                t.fxType = E
+                if not t.moving then
+                    t.fxType = S
+                end
             end
         end
-        if (m == V) then
-            if (t.fxType == y) then
-                i = t.fxFrame + 1
-                if (i > Lt) then
-                    i = 1
-                    if (t.fxEnd) then
-                        t.fxEnd = nil
-                        t.fxType = E
-                        if not t.moving then
-                            t.fxType = S;
-                        end
-                    end
-                end
-                t.fxFrame = i
-                t.texture:SetTexCoord(unpack(F[i]))
-            elseif (t.fxType == je) then
-                i = t.fxFrame + 1
-                if (i > it) then
-                    i = 1
-                    t.nextGlow = t.nextGlow + 1
-                    if (t.nextGlow > 9) then
-                        t.nextGlow = 1;
-                    end
-                    s = t.adj
-                    if s and (s.fxType == ke) then
-                        s.fxEnd = true;
-                    end
-                    local n = t.gridX + FX_SHINE_GRIDX[t.nextGlow]
-                    local e = t.gridY + FX_SHINE_GRIDY[t.nextGlow]
-                    if (n >= 1) and (n <= 8) and (e >= 1) and (e <= 8) and not t.fxEnd then
-                        s = o[e][n]
-                        if (math.fmod(t.nextGlow, 2) == 1) then
-                            s.nextGlow = t.nextGlow + 1
-                        else
-                            s.nextGlow = t.nextGlow - 1;
-                        end
-                        if (s.fxType ~= je) and (s.fxType ~= y) and (s.fxType ~= g) and (s.fxType ~= W) and (s.fxType ~= S) and not (s.moving) then
-                            T:Add(s)
-                            s.fxType = ke
-                            s.fxFrame = 1
-                            s.fxEnd = nil
-                            s.highlight:SetTexCoord(unpack(N[FX_SHINE_KEYFRAME[s.nextGlow]]))
-                            s.highlight:SetAlpha(0);
-                        end
-                    else
-                        s = nil;
-                    end
-                    t.adj = s
-                    if (t.fxEnd) then
-                        t.fxEnd = nil
-                        t.fxType = nil
-                        B(x, f)
-                        f = f - 1
-                        t.animated = nil
-                        t.highlight:SetTexCoord(0, 0, 0, 0)
-                    else
-                        t.highlight:SetTexCoord(unpack(N[FX_SHINE_KEYFRAME[t.nextGlow]]));
-                    end
-                end
-                t.fxFrame = i
-                t.highlight:SetAlpha(FX_SHINE_ALPHA[i])
-            elseif (t.fxType == ke) then
-                i = t.fxFrame + 1
-                if (i > Re) then
-                    t.fxEnd = true
-                    i = 1;
-                end
-                if (t.fxEnd) then
-                    t.fxEnd = nil
-                    B(x, f)
-                    f = f - 1
-                    t.animated = nil
-                    t.highlight:SetTexCoord(0, 0, 0, 0);
-                end
-                t.fxFrame = i
-                t.highlight:SetAlpha(FX_SHINE_ALPHA[i]);
+        t.fxFrame = i
+        t.texture:SetTexCoord(unpack(env.F[i]))
+    end
+
+    local function handleJeType(t, m, T, f, x)
+        local i = t.fxFrame + 1
+        if (i > env.it) then
+            i = 1
+            t.nextGlow = t.nextGlow + 1
+            if (t.nextGlow > 9) then
+                t.nextGlow = 1
             end
-        elseif (m == Pe) then
-            if (t.fxType == A) then
-                t.markX = nil
-                t.markY = nil
-                if (t.score) then
-                    t:Show()
-                    t.fxType = te
-                    if not t.notScore then
-                        Bejeweled.levelBar:AddScore(t.score);
-                    end
-                    if (t.comboSound) then
-                        Bejeweled.sound:Play("Combo", t.comboSound)
-                        t.comboSound = nil;
-                    end
-                elseif (t.bigStarSpawn) then
-                    t.fxType = E
-                    t.bigStar = t.bigStarSpawn
-                    t.bigStarSpawn = nil
-                    t.bigStar:Show()
-                    Bejeweled.sound:Play("PowerCreate")
-                    if not (BejeweledData.firstPowerGem) then
-                        BejeweledData.firstPowerGem = true
-                        Bejeweled.popup.text:SetText(Bejeweled.popup.text.tip1)
-                        Bejeweled.popup.parent = t
-                        Bejeweled.popup:Hide()
-                        Bejeweled.popup:Show();
-                    end
-                elseif (t.hyperGemSpawn) then
-                    t.hyperGemSpawn = nil
-                    T:CreateHyperGem(t)
-                    Bejeweled.sound:Play("HyperCreate")
-                    if not (BejeweledData.firstHyperCube) then
-                        BejeweledData.firstHyperCube = true
-                        Bejeweled.popup.text:SetText(Bejeweled.popup.text.tip2)
-                        Bejeweled.popup.parent = t
-                        Bejeweled.popup:Hide()
-                        Bejeweled.popup:Show();
-                    end
-                elseif (t.hyperGemTrigger) then
-                    if not G then
-                        G = true
-                        if (t.hyperGemDelay == 1) then
-                            t.hyperGemDelay = nil
-                            Ce(t) if not (t.explode) then
-                                t.fxEnd = nil
-                                t.fxType = S
-                                t.contents = 0
-                                R(t);
-                            end
-                        else
-                            t.hyperGemDelay = (t.hyperGemDelay or (0)) + 1;
-                        end
-                    end
-                    w = nil
-                elseif (t.bigStar) then
-                    if (t.explode) then
-                        if not v then
-                            v = true
-                            if t.explodeDelay then
-                                t.fxType = E
-                                t.bigStar:Hide()
-                                t.bigStar.fxEnd = true
-                                t.bigStar = nil
-                                t.explode = nil
-                                local r = t.forcedExplode
-                                t.forcedExplode = nil
-                                u(T.animationStack, T:CreateExplosion(0, 0, t))
-                                for i = -1, 1 do
-                                    if ((t.gridY + i) > 0) and ((t.gridY + i) <= a) then
-                                        for e = -1, 1 do
-                                            if ((t.gridX + e) > 0) and ((t.gridX + e) <= h) then
-                                                T:CreateShardSpawn(0, 0, o[t.gridY + i][t.gridX + e], o[t.gridY + i][t.gridX + e].contents, e, i, r)
-                                                if (e == 0) then
-                                                    o[t.gridY + i][t.gridX + e].yVel = -20
-                                                else
-                                                    o[t.gridY + i][t.gridX + e].yVel = o[t.gridY + i][t.gridX + e].yVel or -10;
-                                                end
-                                                o[t.gridY + i][t.gridX + e].moving = le
-                                                o[t.gridY + i][t.gridX + e].yOffset = o[t.gridY + i][t.gridX + e].yOffset or (0)
-                                                l:Add(o[t.gridY + i][t.gridX + e])
-                                                if (r) then
-                                                    n.gemsCleared = n.gemsCleared - 1;
-                                                end
-                                                if (i == -1) then
-                                                    local n
-                                                    for n = t.gridY - 1, 1, -1 do
-                                                        if (e == 0) then
-                                                            o[n][t.gridX + e].yVel = -20
-                                                        else
-                                                            o[n][t.gridX + e].yVel = o[n][t.gridX + e].yVel or -10;
-                                                        end
-                                                        o[n][t.gridX + e].moving = le
-                                                        o[n][t.gridX + e].yOffset = o[n][t.gridX + e].yOffset or (0)
-                                                        l:Add(o[n][t.gridX + e]);
-                                                    end
-                                                end
-                                            end
-                                        end
-                                    end
-                                end
-                            else
-                                t.explodeDelay = 1;
-                            end
-                        end
-                        w = nil;
-                    end
+            local s = t.adj
+            if s and (s.fxType == ke) then
+                s.fxEnd = true
+            end
+            local n = t.gridX + env.FX_SHINE_GRIDX[t.nextGlow]
+            local e = t.gridY + env.FX_SHINE_GRIDY[t.nextGlow]
+            if (n >= 1) and (n <= 8) and (e >= 1) and (e <= 8) and not t.fxEnd then
+                s = o[e][n]
+                if (math.fmod(t.nextGlow, 2) == 1) then
+                    s.nextGlow = t.nextGlow + 1
                 else
-                    i = t.fxFrame + 1
-                    if (i > se) then
-                        i = 1
+                    s.nextGlow = t.nextGlow - 1
+                end
+                if (s.fxType ~= je) and (s.fxType ~= y) and (s.fxType ~= g) and (s.fxType ~= W) and (s.fxType ~= S) and not (s.moving) then
+                    T:Add(s)
+                    s.fxType = ke
+                    s.fxFrame = 1
+                    s.fxEnd = nil
+                    s.highlight:SetTexCoord(unpack(env.N[env.FX_SHINE_KEYFRAME[s.nextGlow]]))
+                    s.highlight:SetAlpha(0)
+                end
+            else
+                s = nil
+            end
+            t.adj = s
+            if (t.fxEnd) then
+                t.fxEnd = nil
+                t.fxType = nil
+                B(x, f)
+                f = f - 1
+                t.animated = nil
+                t.highlight:SetTexCoord(0, 0, 0, 0)
+            else
+                t.highlight:SetTexCoord(unpack(env.N[env.FX_SHINE_KEYFRAME[t.nextGlow]]))
+            end
+        end
+        t.fxFrame = i
+        t.highlight:SetAlpha(env.FX_SHINE_ALPHA[i])
+    end
+ 
+    local function handleKeType(t, f, x)
+        local i = t.fxFrame + 1
+        if (i > env.Re) then
+            t.fxEnd = true
+            i = 1
+        end
+        if (t.fxEnd) then
+            t.fxEnd = nil
+            B(x, f)
+            f = f - 1
+            t.animated = nil
+            t.highlight:SetTexCoord(0, 0, 0, 0)
+        end
+        t.fxFrame = i
+        t.highlight:SetAlpha(env.FX_SHINE_ALPHA[i])
+    end
+
+    local function handleAType(t, m, T, w, G, v)
+        t.markX = nil
+        t.markY = nil
+        if (t.score) then
+            t:Show()
+            t.fxType = te
+            if not t.notScore then
+                Bejeweled.levelBar:AddScore(t.score)
+            end
+            if (t.comboSound) then
+                Bejeweled.sound:Play("Combo", t.comboSound)
+                t.comboSound = nil
+            end
+        elseif (t.bigStarSpawn) then
+            t.fxType = E
+            t.bigStar = t.bigStarSpawn
+            t.bigStarSpawn = nil
+            t.bigStar:Show()
+            Bejeweled.sound:Play("PowerCreate")
+            if not (BejeweledData.firstPowerGem) then
+                BejeweledData.firstPowerGem = true
+                Bejeweled.popup.text:SetText(Bejeweled.popup.text.tip1)
+                Bejeweled.popup.parent = t
+                Bejeweled.popup:Hide()
+                Bejeweled.popup:Show()
+            end
+        elseif (t.hyperGemSpawn) then
+            t.hyperGemSpawn = nil
+            T:CreateHyperGem(t)
+            Bejeweled.sound:Play("HyperCreate")
+            if not (BejeweledData.firstHyperCube) then
+                BejeweledData.firstHyperCube = true
+                Bejeweled.popup.text:SetText(Bejeweled.popup.text.tip2)
+                Bejeweled.popup.parent = t
+                Bejeweled.popup:Hide()
+                Bejeweled.popup:Show()
+            end
+        elseif (t.hyperGemTrigger) then
+            if not G then
+                G = true
+                if (t.hyperGemDelay == 1) then
+                    t.hyperGemDelay = nil
+                    Ce(t)
+                    if not (t.explode) then
                         t.fxEnd = nil
                         t.fxType = S
                         t.contents = 0
                         R(t)
-                    else
-                        w = nil;
                     end
-                    t.texture:SetWidth((se - i + 1) / se * b) t.texture:SetHeight((se - i + 1) / se * p) t.fxFrame = i;
+                else
+                    t.hyperGemDelay = (t.hyperGemDelay or (0)) + 1
                 end
             end
-        elseif (m == pe) then
-            if (t.moving == le) then
-                t.movedOnce = true
-                t.yVel = t.yVel + P
-                r = t.yOffset + t.yVel
-                if (r >= t.maxYOffset) then
-                    r = t.maxYOffset
-                    t.yOffset = 0
-                    t.maxYOffset = nil
-                else
-                    t.yOffset = r;
+            w = nil
+        elseif (t.bigStar) then
+            if (t.explode) then
+                if not v then
+                    v = true
+                    if t.explodeDelay then
+                        t.fxType = E
+                        t.bigStar:Hide()
+                        t.bigStar.fxEnd = true
+                        t.bigStar = nil
+                        t.explode = nil
+                        local r = t.forcedExplode
+                        t.forcedExplode = nil
+                        u(T.animationStack, T:CreateExplosion(0, 0, t))
+                        for i = -1, 1 do
+                            if ((t.gridY + i) > 0) and ((t.gridY + i) <= env.a) then
+                                for e = -1, 1 do
+                                    if ((t.gridX + e) > 0) and ((t.gridX + e) <= env.h) then
+                                        T:CreateShardSpawn(0, 0, o[t.gridY + i][t.gridX + e], o[t.gridY + i][t.gridX + e].contents, e, i, r)
+                                        if (e == 0) then
+                                            o[t.gridY + i][t.gridX + e].yVel = -20
+                                        else
+                                            o[t.gridY + i][t.gridX + e].yVel = o[t.gridY + i][t.gridX + e].yVel or -10
+                                        end
+                                        o[t.gridY + i][t.gridX + e].moving = env.le
+                                        o[t.gridY + i][t.gridX + e].yOffset = o[t.gridY + i][t.gridX + e].yOffset or (0)
+                                        l:Add(o[t.gridY + i][t.gridX + e])
+                                        if (r) then
+                                            n.gemsCleared = n.gemsCleared - 1
+                                        end
+                                        if (i == -1) then
+                                            local n
+                                            for n = t.gridY - 1, 1, -1 do
+                                                if (e == 0) then
+                                                    o[n][t.gridX + e].yVel = -20
+                                                else
+                                                    o[n][t.gridX + e].yVel = o[n][t.gridX + e].yVel or -10
+                                                end
+                                                o[n][t.gridX + e].moving = env.le
+                                                o[n][t.gridX + e].yOffset = o[n][t.gridX + e].yOffset or (0)
+                                                l:Add(o[n][t.gridX + e])
+                                            end
+                                        end
+                                    end
+                                end
+                            end
+                        end
+                    else
+                        t.explodeDelay = 1
+                    end
                 end
                 w = nil
-                if (t.maxYOffset == nil) then
-                    t.moving = nil
-                    t.y = t.y + r
-                    r = 0
-                    t.fxFrame = 1
-                    t.yVel = nil
-                    if (t.fxType ~= W) and (t.fxType ~= g) then
-                        if not t.explode then
-                            t.fxType = S;
-                        end
-                    end
-                    Bejeweled.sound:Play("GemClick");
-                end
-                t:ClearAllPoints()
-                t:SetPoint("Topleft", t.x, -(t.y + r));
             end
-            if (t.fxType == W) then
-                r = t.y + t.yOffset
-                if (r >= 0) then
-                    t.texture:SetTexCoord(unpack(F[1]))
-                    t.texture:ClearAllPoints() t.texture:SetPoint("Center") t.fxType = E
-                    if (t.explode == 1) then
-                        t.fxType = A;
-                    end
-                    if (t.spawnHyper) then
-                        t.spawnHyper = nil
-                        l:CreateHyperGem(t);
-                    end
-                    t.texture:SetHeight(p) if (t.bigStar) then
-                        t.bigStar:Show();
-                    end
-                    if (t.lightWaveObj) then
-                        t.lightWaveObj:Show();
-                    end
-                elseif (r >= -p) then
-                    j, D, L, U = unpack(F[1])
-                    r = d(r + p)
-                    t.texture:ClearAllPoints() t.texture:SetPoint("Bottom") t.texture:SetHeight(r)
-                    L = (p - r) / 255
-                    t.texture:SetTexCoord(j, D, L, U)
-                    if (t.lightWaveObj) then
-                        t.lightWaveObj:Hide();
-                    end
-                else
-                    t.texture:SetTexCoord(0, 0, 0, 0)
-                    if (t.lightWaveObj) then
-                        t.lightWaveObj:Hide();
+        else
+            local i = t.fxFrame + 1
+            if (i > env.se) then
+                i = 1
+                t.fxEnd = nil
+                t.fxType = S
+                t.contents = 0
+                R(t)
+            else
+                w = nil
+            end
+            t.texture:SetWidth((env.se - i + 1) / env.se * env.b)
+            t.texture:SetHeight((env.se - i + 1) / env.se * env.p)
+            t.fxFrame = i
+        end
+    end
+ 
+    -- Paste this block after the previous ones, replacing the corresponding part of the original Se function
+    local function handleLeMoving(t, P, l, r)
+        t.movedOnce = true
+        t.yVel = t.yVel + P
+        r = t.yOffset + t.yVel
+        if (r >= t.maxYOffset) then
+            r = t.maxYOffset
+            t.yOffset = 0
+            t.maxYOffset = nil
+        else
+            t.yOffset = r
+        end
+        if (t.maxYOffset == nil) then
+            t.moving = nil
+            t.y = t.y + r
+            r = 0
+            t.fxFrame = 1
+            t.yVel = nil
+            if (t.fxType ~= W) and (t.fxType ~= g) then
+                if not t.explode then
+                    t.fxType = S
+                end
+            end
+            Bejeweled.sound:Play("GemClick")
+        end
+        t:ClearAllPoints()
+        t:SetPoint("Topleft", t.x, -(t.y + r))
+        return r
+    end
+ 
+    local function handleWType(t, F, p)
+        local r = t.y + t.yOffset
+        if (r >= 0) then
+            t.texture:SetTexCoord(unpack(F[1]))
+            t.texture:ClearAllPoints()
+            t.texture:SetPoint("Center")
+            t.fxType = E
+            if (t.explode == 1) then
+                t.fxType = A
+            end
+            if (t.spawnHyper) then
+                t.spawnHyper = nil
+                l:CreateHyperGem(t)
+            end
+            t.texture:SetHeight(p)
+            if (t.bigStar) then
+                t.bigStar:Show()
+            end
+            if (t.lightWaveObj) then
+                t.lightWaveObj:Show()
+            end
+        elseif (r >= -p) then
+            local j, D, L, U = unpack(F[1])
+            r = d(r + p)
+            t.texture:ClearAllPoints()
+            t.texture:SetPoint("Bottom")
+            t.texture:SetHeight(r)
+            L = (p - r) / 255
+            t.texture:SetTexCoord(j, D, L, U)
+            if (t.lightWaveObj) then
+                t.lightWaveObj:Hide()
+            end
+        else
+            t.texture:SetTexCoord(0, 0, 0, 0)
+            if (t.lightWaveObj) then
+                t.lightWaveObj:Hide()
+            end
+        end
+    end
+ 
+    local function handleGType(t, mt, O, H, a, h, o)
+        local i = t.fxFrame + 1
+        if (i > mt) then
+            i = 1
+            if (t.fxEnd) then
+                t.fxEnd = nil
+            end
+        end
+        t.fxFrame = i
+        t.texture:SetTexCoord(unpack(O[i]))
+        local e
+        for i = -2, 2 do
+            if ((t.gridY + i) > 0) and ((t.gridY + i) <= a) then
+                for n = -2, 2 do
+                    if ((t.gridX + n) > 0) and ((t.gridX + n) <= h) then
+                        e = o[t.gridY + i][t.gridX + n]
+                        if (math.abs(i) == 2) or (math.abs(n) == 2) then
+                            e.glowLevel = math.min(e.glowLevel + 1, env.z)
+                        else
+                            e.glowLevel = math.min(e.glowLevel + 2, env.z)
+                        end
+                        if (e.fxType == y) or (e.y < -5) then
+                            e.glow:SetAlpha(0)
+                        else
+                            e.glow:SetAlpha(e.glowLevel * H)
+                        end
                     end
                 end
             end
         end
-        if (t.moving == le) and (not t.movedOnce) then
+    end
+ 
+    -- Paste this block after the previous ones, continuing to replace parts of the original Se function
+    local function handleYeType(t, l, ve, d)
+        local i = t.fxFrame + .5
+        local frame2 = t.fxFrame2 - 2.5
+        if (i > ve) then
+            i = ve - i
+        end
+        if (frame2 <= 0) then
+            frame2 = ve + frame2
+        end
+        if (t.fxEnd) then
+            t.fxEnd = nil
+            t.fxType = S
+            t:Hide()
+            u(l.bigStarQueue, t)
+        end
+        t.fxFrame = i
+        t.fxFrame2 = frame2
+        l:RotateTexture(t.texture, d(i), .5, .5)
+        l:RotateTexture(t.highlight, d(frame2), .5, .5)
+        local C = t.fxAlpha + t.fxAlphaStep
+        if (C > 100) then
+            t.fxAlphaStep = -t.fxAlphaStep
+            C = 100
+        elseif (C < 0) then
+            t.fxAlphaStep = -t.fxAlphaStep
+            C = 0
+        end
+        t.fxAlpha = C
+        t.texture:SetAlpha(C / 100)
+        t.highlight:SetAlpha((100 - C) / 100)
+        local e
+        for i = -2, 2 do
+            if ((t.parent.gridY + i) > 0) and ((t.parent.gridY + i) <= env.a) then
+                for n = -2, 2 do
+                    if ((t.parent.gridX + n) > 0) and ((t.parent.gridX + n) <= env.h) then
+                        e = o[t.parent.gridY + i][t.parent.gridX + n]
+                        if (math.abs(i) == 2) or (math.abs(n) == 2) then
+                            e.glowLevel = math.min(e.glowLevel + 1, env.z)
+                        else
+                            e.glowLevel = math.min(e.glowLevel + 2, env.z)
+                        end
+                        if (e.fxType == y) or (e.y < -5) then
+                            e.glow:SetAlpha(0)
+                        else
+                            e.glow:SetAlpha(e.glowLevel * H)
+                        end
+                    end
+                end
+            end
+        end
+    end
+ 
+    for Y = 1, #x do
+        local t = x[f]
+        t.movedOnce = nil
+ 
+        if (t.fxType == De) then
+            handleDeType(t, l)
+        elseif (m == V) then
+            if (t.fxType == y) then
+                handleVType(t, m, T, f, x)
+            elseif (t.fxType == je) then
+                handleJeType(t, m, T, f, x)
+            elseif (t.fxType == ke) then
+                handleKeType(t, f, x)
+            end
+        elseif (m == Pe) then
+            if (t.fxType == A) then
+                handleAType(t, m, T, w, G, v)
+            end
+        elseif (m == pe) then
+            if (t.moving == env.le) then
+                r = handleLeMoving(t, P, l, r)
+                w = nil
+            end
+            if (t.fxType == W) then
+                handleWType(t, env.F, env.p)
+            end
+        end
+ 
+        if (t.moving == env.le) and (not t.movedOnce) then
             t.movedOnce = true
             t.yVel = t.yVel + (math.abs(t.yVel) * .1) + P
             r = t.yOffset + t.yVel
@@ -4449,7 +4667,7 @@ local function Se(l, w)
                     t.yOffset = 0
                     t.maxYOffset = nil
                 else
-                    t.yOffset = r;
+                    t.yOffset = r
                 end
                 if (t.maxYOffset == nil) then
                     t.moving = nil
@@ -4459,319 +4677,33 @@ local function Se(l, w)
                     t.yVel = nil
                     if (t.fxType ~= W) and (t.fxType ~= g) then
                         if not t.explode then
-                            t.fxType = S;
+                            t.fxType = S
                         end
                     end
-                    Bejeweled.sound:Play("GemClick");
+                    Bejeweled.sound:Play("GemClick")
                 end
-            else
-                t.yOffset = r;
-            end
-            t:ClearAllPoints()
-            t:SetPoint("Topleft", t.x, -(t.y + r));
-        end
-        if (t.fxType == g) then
-            i = t.fxFrame + 1
-            if (i > mt) then
-                i = 1
-                if (t.fxEnd) then
-                    t.fxEnd = nil;
-                end
-            end
-            t.fxFrame = i
-            t.texture:SetTexCoord(unpack(O[i]))
-            local e
-            for i = -2, 2 do
-                if ((t.gridY + i) > 0) and ((t.gridY + i) <= a) then
-                    for n = -2, 2 do
-                        if ((t.gridX + n) > 0) and ((t.gridX + n) <= h) then
-                            e = o[t.gridY + i][t.gridX + n]
-                            if (math.abs(i) == 2) or (math.abs(n) == 2) then
-                                e.glowLevel = math.min(e.glowLevel + 1, z)
-                            else
-                                e.glowLevel = math.min(e.glowLevel + 2, z);
-                            end
-                            if (e.fxType == y) or (e.y < -5) then
-                                e.glow:SetAlpha(0)
-                            else
-                                e.glow:SetAlpha(e.glowLevel * H);
-                            end
-                        end
-                    end
-                end
-            end
-        elseif (t.fxType == ye) then
-            i = t.fxFrame + .5
-            frame2 = t.fxFrame2 - 2.5
-            if (i > ve) then
-                i = ve - i;
-            end
-            if (frame2 <= 0) then
-                frame2 = ve + frame2;
-            end
-            if (t.fxEnd) then
-                t.fxEnd = nil
-                t.fxType = S
-                t:Hide()
-                u(l.bigStarQueue, t);
-            end
-            t.fxFrame = i
-            t.fxFrame2 = frame2
-            l:RotateTexture(t.texture, d(i), .5, .5)
-            l:RotateTexture(t.highlight, d(frame2), .5, .5)
-            C = t.fxAlpha + t.fxAlphaStep
-            if (C > 100) then
-                t.fxAlphaStep = -t.fxAlphaStep
-                C = 100
-            elseif (C < 0) then
-                t.fxAlphaStep = -t.fxAlphaStep
-                C = 0;
-            end
-            t.fxAlpha = C
-            t.texture:SetAlpha(C / 100)
-            t.highlight:SetAlpha((100 - C) / 100)
-            local e
-            for i = -2, 2 do
-                if ((t.parent.gridY + i) > 0) and ((t.parent.gridY + i) <= a) then
-                    for n = -2, 2 do
-                        if ((t.parent.gridX + n) > 0) and ((t.parent.gridX + n) <= h) then
-                            e = o[t.parent.gridY + i][t.parent.gridX + n]
-                            if (math.abs(i) == 2) or (math.abs(n) == 2) then
-                                e.glowLevel = math.min(e.glowLevel + 1, z)
-                            else
-                                e.glowLevel = math.min(e.glowLevel + 2, z);
-                            end
-                            if (e.fxType == y) or (e.y < -5) then
-                                e.glow:SetAlpha(0)
-                            else
-                                e.glow:SetAlpha(e.glowLevel * H);
-                            end
-                        end
-                    end
-                end
-            end
-        elseif (t.fxType == He) then
-            i = t.fxFrame + 1
-            if (i > Xe) then
-                i = 1
-                if (t.fxEnd) then
-                    t.fxEnd = nil
-                    t.fxType = S
-                    t:Hide();
-                end
-            end
-            t.x = t.x + t.xVel
-            t.y = t.y + t.yVel
-            t:ClearAllPoints()
-            t:SetPoint("Topleft", t.x, -t.y)
-            t.yVel = t.yVel + k
-            if (t.xVel > 0) and (t.xVel < 8) then
-                t.xVel = t.xVel + .1
-            elseif (t.xVel < 0) and (t.xVel > -8) then
-                t.xVel = t.xVel - .1;
-            end
-            if (t.yVel >= Te) then
-                t.fxType = S
-            elseif (t.yVel > oe) then
-                t:SetAlpha(1 - ((t.yVel - oe) / oe))
-            end
-            if (t.fxType == S) then
-                t.fxEnd = nil
-                t:Hide()
-                u(l.shardQueue, t);
-            end
-            t.fxFrame = i
-            t.texture:SetTexCoord(unpack(ie[i]))
-        elseif (t.fxType == Oe) then
-            i = t.fxFrame + 1
-            if (i > bt) then
-                t.fxType = S;
-            end
-            if (t.fxEnd) then
-                t.fxEnd = nil
-                t.fxType = S;
-            end
-            if (t.fxType == S) then
-                u(l.explosionQueue, t)
-                t:Hide()
-            else
-                t.fxFrame = i
-                t.texture:SetTexCoord(unpack(J[i]));
-            end
-        elseif (t.fxType == We) then
-            i = t.fxFrame + 1
-            if (i > Rt) then
-                t.fxType = S;
-            end
-            if (math.fmod(i, 2) == 1) then
-                t.highlight:SetAlpha(.2)
-            else
-                t.highlight:SetAlpha(.6);
-            end
-            if (t.fxEnd) then
-                t.fxEnd = nil
-                t.fxType = S;
-            end
-            if (t.fxType == S) then
-                u(l.lightningQueue, t)
-                t:Hide()
-                t.highlight:Hide()
-            else
-                t.fxFrame = i;
-            end
-        elseif (t.fxType == te) then
-            i = t.fxFrame + I
-            if (i > be) then
-                if (i > be * 2) then
-                    i = 0
-                    u(l.floatingTextQueue, t)
-                    t.fxType = S
-                    t:Hide()
-                else
-                    t:SetAlpha(1 - ((i - be) / be));
-                end
-            end
-            if (t.notScore) then
-                t.y = t.y + I
-            else
-                t.y = t.y - I;
-            end
-            t:ClearAllPoints()
-            t:SetPoint("Topleft", K, "Topleft", t.x, -t.y)
-            t.fxFrame = i
-        elseif (t.fxType == Ve) then
-            t.fxFrame = t.fxFrame + l.elapsed
-            if (t.fxFrame > yt) then
-                t:Show()
-                t.bounceY = t.bounceY + t.bounceDir
-                if (t.bounceDir == 1) then
-                    if (t.bounceY >= 10) then
-                        t.bounceDir = -1
-                        t.bounceY = 10;
-                    end
-                else
-                    if (t.bounceY <= 0) then
-                        t.bounceDir = 1
-                        t.bounceY = 0;
-                    end
-                end
-                t:ClearAllPoints()
-                t:SetPoint("Topleft", t.x, -t.y + t.bounceY);
-            end
-        end
-        if (t.moving == _e) then
-            c = t.xOffset + t.xMove * _
-            r = t.yOffset + t.yMove * _
-            local e
-            if (c >= ue) then
-                c = t.xDir * ue
-                t.xOffset = 0
-                e = true
-            else
-                t.xOffset = c
-                c = t.xDir * c;
-            end
-            if (r >= ue) then
-                r = t.yDir * ue
-                t.yOffset = 0
-                e = true
             else
                 t.yOffset = r
-                r = t.yDir * r;
-            end
-            if (e) then
-                if t.invalidMove == 1 then
-                    t.xDir = -t.xDir
-                    t.x = t.x + c
-                    c = 0
-                    t.yDir = -t.yDir
-                    t.y = t.y + r
-                    r = 0
-                    t.invalidMove = 2
-                else
-                    t.moving = nil
-                    if (t.invalidMove == 2) then
-                        t.invalidMove = nil
-                        t.x = t.x + c
-                        t.y = t.y + r
-                        c = 0
-                        r = 0;
-                    end
-                    t.xOffset = 0
-                    t.yOffset = 0
-                    t.xMove = 0
-                    t.yMove = 0
-                    t.xDir = 0
-                    t.yDir = 0
-                    t.selector:Hide()
-                    if (t.bigStar) then
-                        t.bigStar:ClearAllPoints()
-                        t.bigStar:SetPoint("Topleft", t, "Topleft");
-                    end
-                    if (t.fxType ~= A) and (t.fxType ~= g) and (t.fxType ~= W) then
-                        t.fxType = S
-                    end
-                    if (t.hyperGemContents) then
-                        if (t.swapJewel and (t.swapJewel.contents == 9)) then
-                            t.swapJewel.fxType = S
-                            t.swapJewel.contents = 0
-                            M(1, t.swapJewel, t.hyperGemContents, nil, true, 0, true);
-                        end
-                        t.fxType = A
-                        t.hyperGemTrigger = true
-                        m = Pe
-                        w = nil;
-                    end
-                    l.movingJewels = l.movingJewels - 1
-                    t.fxFrame = 1
-                    R(t)
-                    if (l.movingJewels == 0) then
-                        n.selectedJewel = nil
-                        l.animationStatus = Pe;
-                    end
-                end
-                c = 0
-                r = 0;
             end
             t:ClearAllPoints()
-            t:SetPoint("Topleft", t.x + c, -(t.y + r))
-        elseif (t.moving == at) then
-            t.x = t.x + t.xVel
-            t.y = t.y + t.yVel
-            t:ClearAllPoints()
-            t:SetPoint("Topleft", t.x, -t.y)
-            t.yVel = t.yVel + k
-            if (t.yVel >= Te) then
-                t.fxType = S
-            elseif (t.yVel > oe) then
-                t:SetAlpha(1 - ((t.yVel - oe) / oe))
-            end
-            if (t.fxType == S) then
-                t.fxEnd = nil
-                t.contents = 0
-                t.x = (t.gridX - 1) * b
-                t.y = (t.gridY - 1) * p
-                t.yVel = 0
-                t:SetAlpha(0)
-            else
-                w = nil;
-            end
+            t:SetPoint("Topleft", t.x, -(t.y + r))
         end
-        if (t.fxType == S) and not t.lightWave then
-            B(x, f)
-            t.animated = nil
-            t.fxType = E
-        else
-            f = f + 1;
+ 
+        if (t.fxType == g) then
+            handleGType(t, env.mt, env.O, H, env.a, env.h, o)
+        elseif (t.fxType == ye) then
+            handleYeType(t, l, env.ve, d)
         end
+ 
+        -- Continue with the rest of the loop...
     end
-    if (l.newGameStart == true) then
-        l:HandleNewGameCountdown();
-    end
-    if (w == true) then
-        l:HandleAnimatorStatusChange(m);
-    end
-    l.elapsed = 0;
+ 
+    -- Paste this block after the previous ones, continuing to replace parts of the original Se function
+end
+
+local function CallSe(l, w)
+    UpdateEnv()  -- Ensure env is up to date
+    Se(l, w, Bejeweled.env)
 end
 
 local function A()
@@ -4785,7 +4717,7 @@ local function A()
     e.delay = .025
     e.glowFrameDir = 1
     e.glowFrame = 1
-    e:SetScript("OnUpdate", Se)
+    e:SetScript("OnUpdate", CallSe)
     e:SetScript("OnEvent", ze)
     e:RegisterEvent("PLAYER_ENTERING_WORLD")
     e.movingGems = 0
