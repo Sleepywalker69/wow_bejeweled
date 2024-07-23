@@ -7458,8 +7458,7 @@ end
 
 local function k()
     Bejeweled.skillLimit = true
-    
-    
+
     v = x(1378301, 4)
     local x = A()
     local r = g()
@@ -7491,15 +7490,15 @@ local function k()
     -- ...
 
     -- Near the end, update frame levels if necessary
-    Be = (S:GetFrameLevel() + 2)
-    FRAME_LEVEL_JEWEL_SWAP = (S:GetFrameLevel() + 3)
-    Ie = (S:GetFrameLevel() + 4)
-    Ge = (S:GetFrameLevel() + 5)
-    Ae = (S:GetFrameLevel() + 6)
+    Be = (r:GetFrameLevel() + 2)
+    FRAME_LEVEL_JEWEL_SWAP = (r:GetFrameLevel() + 3)
+    Ie = (r:GetFrameLevel() + 4)
+    Ge = (r:GetFrameLevel() + 5)
+    Ae = (r:GetFrameLevel() + 6)
 
     for t = 0, 7 do
         for e = 0, 7 do
-            h = tt(e * b, t * p, S, 1)
+            h = tt(e * b, t * p, r, 1)
             h:EnableMouse(true)
             h:RegisterForDrag("LeftButton")
             h:SetScript("OnEnter", Ye)
@@ -7527,3 +7526,4 @@ end
 
 k()
 local e;
+
